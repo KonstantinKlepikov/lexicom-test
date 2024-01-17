@@ -1,0 +1,37 @@
+version: '3.8'
+
+
+services:
+
+
+  lexicom-redis:
+
+    image: bitnami/redis:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - dev-lexicom-network
+
+
+  lexicom-api:
+
+    image: lexicom-api
+    networks:
+      - dev-lexicom-network
+
+
+  lexicom-postgres-dev:
+
+    image: postgres:14
+    networks:
+      - dev-lexicom-network
+
+
+  lexicom-db-q:
+
+    networks:
+      - dev-lexicom-network
+
+
+networks:
+  dev-lexicom-network:

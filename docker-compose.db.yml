@@ -1,0 +1,41 @@
+version: '3.8'
+
+
+services:
+
+
+  lexicom-postgres-dev:
+
+    container_name: lexicom-postgres-dev
+    volumes:
+      - lexicom-postgres-data-dev:/var/lib/postgresql/data/pgdata
+    env_file: .env
+    ports:
+      - "15432:5432"
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
+      - POSTGRES_USER=${POSTGRES_USER?Variable not set}
+      - POSTGRES_DB=${POSTGRES_DB?Variable not set}
+    restart: unless-stopped
+
+
+  lexicom-db-q:
+
+    container_name: lexicom-db-dev
+    ports:
+      - "18001:8000"
+    env_file:
+      - .env
+    build:
+      context: ./db
+      dockerfile: dockerfile
+      args:
+        INSTALL_DEV: ${INSTALL_DEV-true}
+    volumes:
+      - ./db/app:/app
+
+
+volumes:
+  lexicom-postgres-data-dev:
+    driver: local

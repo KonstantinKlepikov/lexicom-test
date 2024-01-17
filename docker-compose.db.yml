@@ -1,11 +1,8 @@
 version: '3.8'
 
-
 services:
 
-
   lexicom-postgres-dev:
-
     container_name: lexicom-postgres-dev
     volumes:
       - lexicom-postgres-data-dev:/var/lib/postgresql/data/pgdata
@@ -19,10 +16,8 @@ services:
       - POSTGRES_DB=${POSTGRES_DB?Variable not set}
     restart: unless-stopped
 
-
   lexicom-db-q:
-
-    container_name: lexicom-db-dev
+    container_name: lexicom-db-q-dev
     ports:
       - "18001:8000"
     env_file:
@@ -34,7 +29,6 @@ services:
         INSTALL_DEV: ${INSTALL_DEV-true}
     volumes:
       - ./db/app:/app
-
 
 volumes:
   lexicom-postgres-data-dev:

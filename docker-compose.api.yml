@@ -1,37 +1,29 @@
 version: '3.8'
 
-
 services:
 
-
   lexicom-redis:
-
-    image: bitnami/redis:latest
+    container_name: lexicom-redis-dev
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
-    networks:
-      - dev-lexicom-network
-
+    volumes:
+      - lexicom-redis-data-dev:/bitnami/redis/data
 
   lexicom-api:
+    container_name: lexicom-api-dev
+    ports:
+      - "18000:8000"
+    env_file:
+      - .env
+    build:
+      context: ./api
+      dockerfile: dockerfile
+      args:
+        INSTALL_DEV: ${INSTALL_DEV-true}
+    volumes:
+      - ./api/app:/app
 
-    image: lexicom-api
-    networks:
-      - dev-lexicom-network
+volumes:
+  lexicom-redis-data-dev:
+    driver: local
 
-
-  lexicom-postgres-dev:
-
-    image: postgres:14
-    networks:
-      - dev-lexicom-network
-
-
-  lexicom-db-q:
-
-    networks:
-      - dev-lexicom-network
-
-
-networks:
-  dev-lexicom-network:

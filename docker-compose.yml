@@ -12,12 +12,10 @@ services:
     networks:
       - dev-lexicom-network
 
-
   lexicom-postgres-dev:
     image: postgres:14
     networks:
       - dev-lexicom-network
-
 
   lexicom-db-q:
     image: lexicom-db-q
